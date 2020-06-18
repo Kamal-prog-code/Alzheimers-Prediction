@@ -1,0 +1,139 @@
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"/>
+
+    <title>Alzheimers Disease Prediction</title>
+  </head>
+  <body class="bg-primary text-white">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'home' %}">Disease Predictor</a>
+    </nav>
+
+    <div class="container">
+      <div class="display-3 my-2 text-center">Alzheimers Disease Prediction</div>
+      <hr/>
+      {% if context %}
+      <div class="display-4 text-center">
+        You {{ context }} Alzheimers disease.
+      </div>
+      {% endif %}
+      <form class="row" method="POST" action="{% url 'ad' %}">
+        {% csrf_token %}
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="age">Age</label>
+              <input type="number"
+                step="1"
+                class="form-control"
+                id="age"
+                value="0"
+                name="age"/>
+           </div>
+           <div class="form-group">
+             <label for="M/F">M/F</label>
+             <input
+               type="number"
+               step="1"
+               class="form-control"
+               id="M/F"
+               value="0"
+               name="M/F"/>
+            </div>
+            <div class="form-group">
+              <label for="MMSE">MMSE</label>
+              <input
+                type="number"
+                step=".01"
+                class="form-control"
+                id="MMSE"
+                value="0"
+                name="MMSE"/>
+            </div>
+            <div class="form-group">
+              <label for="CDR">CDR</label>
+              <input
+                type="number"
+                step=".00001"
+                class="form-control"
+                id="CDR"
+                value="0"
+                name="CDR"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="eTIV">eTIV</label>
+              <input
+                type="number"
+                step=".00001"
+                class="form-control"
+                id="eTIV"
+                value="0"
+                name="eTIV"/>
+            </div>
+            <div class="form-group">
+              <label for="nWBV">nWBV</label>
+              <input
+                type="number"
+                step=".00001"
+                class="form-control"
+                id="nWBV"
+                value="0"
+                name="nWBV"/>
+            </div>
+            <div class="form-group">
+              <label for="ASF">ASF</label>
+              <input
+                type="number"
+                step=".00001"
+                class="form-control"
+                id="ASF"
+                value="0"
+                name="ASF"/>
+            </div>
+            <div class="form-group">
+              <label for="SES">SES</label>
+              <input
+                type="number"
+                step=".00001"
+                class="form-control"
+                id="SES"
+                value="0"
+                name="SES"/>
+            </div>
+            <div class="form-group">
+              <label for="EDUC">EDUC</label>
+              <input
+                type="number"
+                step=".00001"
+                class="form-control"
+                id="EDUC"
+                value="0"
+                name="EDUC"/>
+            </div>
+            <button type="submit" class="btn btn-danger" style="width:max-content ;">
+              Submit
+          </button>
+          </div>
+        </form>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

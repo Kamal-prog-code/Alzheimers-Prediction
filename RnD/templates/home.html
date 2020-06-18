@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>Alzheimer's Disease Predictor</title>
+
+    <style>
+      section.pricing {
+        background: #007bff;
+        vertical-align: bottom;
+      }
+
+      .pricing .card {
+        border-radius: 1rem;
+        transition: all 0.2s;
+        box-shadow: 0 2rem 1rem 0 rgba(175, 40, 40, 0.1);
+      }
+
+      .pricing .card-title {
+        margin: rem 0;
+        font-size: 0.9rem;
+        letter-spacing: 0.1rem;
+        font-weight: bold;
+      }
+      
+      .pricing .text-muted {
+        opacity: 0.7;
+      }
+
+      .pricing .btn {
+        font-size: 80%;
+        border-radius: 5rem;
+        letter-spacing: 0.1rem;
+        font-weight: bold;
+        padding: 1rem;
+        opacity: 0.7;
+        transition: all 0.2s;
+      }
+
+      @media (min-width: 992px) {
+        .pricing .card:hover {
+          margin-top: -0.25rem;
+          margin-bottom: 0.25rem;
+          box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+        }
+        .pricing .card:hover .btn {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="jumbotron">
+      <nav>
+        <a class="navbar-brand" href="{% url 'home' %}"><font size="50" color="Red">Disease Predictor</font></a>
+      </nav>      
+    </div>   
+
+    <section class="pricing py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+              <div class="card card-body">
+                <h5 class="card-title text-muted text-uppercase text-center" style="font-weight: bold;">
+                  Alzheimer's DISEASE PREDICTION
+                </h5>
+                <h6 class="card-title text-muted">Alzheimer's disease is a progressive disorder that causes brain cells to waste away (degenerate) and die. Alzheimer's disease is the most common cause of dementia — a continuous decline in thinking, behavioral and social skills that disrupts a person's ability to function independently.
+                The early signs of the disease may be forgetting recent events or conversations. As the disease progresses, a person with Alzheimer's disease will develop severe memory impairment and lose the ability to carry out everyday tasks.</h6>          
+                <a href="{% url 'ad' %}" class="btn btn-block btn-danger text-uppercase">Know Ur Brain Status</a>
+              </div>
+          </div>
+          <div class="col-sm-4">
+              <div class="card card-body">
+                <form method="POST" enctype="multipart/form-data">
+                  {%csrf_token%}
+                  {{form.as_p}}
+                  <input type="submit" value="Submit"> 
+                </form>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
