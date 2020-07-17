@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -9,61 +8,41 @@
     <title>Alzheimer's Disease Predictor</title>
 
     <style>
-      section.pricing {
+      div.pricing {
         background: #007bff;
-        vertical-align: bottom;
-      }
-
-      .pricing .card {
-        border-radius: 1rem;
-        transition: all 0.2s;
-        box-shadow: 0 2rem 1rem 0 rgba(175, 40, 40, 0.1);
       }
 
       .pricing .card-title {
-        margin: rem 0;
         font-size: 0.9rem;
         letter-spacing: 0.1rem;
         font-weight: bold;
       }
       
-      .pricing .text-muted {
-        opacity: 0.7;
-      }
-
-      .pricing .btn {
+      .pricing{
         font-size: 80%;
-        border-radius: 5rem;
         letter-spacing: 0.1rem;
         font-weight: bold;
-        padding: 1rem;
-        opacity: 0.7;
         transition: all 0.2s;
       }
 
-      @media (min-width: 992px) {
+      @media (min-width: 1000px) {
         .pricing .card:hover {
           margin-top: -0.25rem;
           margin-bottom: 0.25rem;
-          box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
-        }
-        .pricing .card:hover .btn {
-          opacity: 1;
+          box-shadow: 0 0.5rem 1rem 0 rgb(0, 0, 0);
         }
       }
     </style>
   </head>
   <body>
     <div class="jumbotron">
-      <nav>
-        <a class="navbar-brand" href="{% url 'home' %}"><font size="50" color="Red">Disease Predictor</font></a>
-      </nav>      
+        <a class="navbar-brand" href="{% url 'home' %}"><font size="50" color="Red">Disease Predictor</font></a>     
     </div>   
 
-    <section class="pricing py-5">
+    <div class="pricing" style="height: 600px;">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-6" style="margin-top:6em;">
               <div class="card card-body">
                 <h5 class="card-title text-muted text-uppercase text-center" style="font-weight: bold;">
                   Alzheimer's DISEASE PREDICTION
@@ -73,7 +52,7 @@
                 <a href="{% url 'ad' %}" class="btn btn-block btn-danger text-uppercase">Know Ur Brain Status</a>
               </div>
           </div>
-          <div class="col-sm-4">
+          <div class="col-lg-4" style="margin-top:6em;margin-left: 2em;">
               <div class="card card-body">
                 <form method="POST" enctype="multipart/form-data" action="{% url 'visual' %}">
                   {%csrf_token%}
@@ -81,9 +60,10 @@
                   <input type="submit" value="Submit"> 
                 </form>
               </div>
+              <a class="btn btn-warning" style="margin-top: 4em;margin-left: 12em;" href="{% url 'visual'%}">Our Analysis &#8594;</a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </body>
 </html>

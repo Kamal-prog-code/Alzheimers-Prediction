@@ -7,9 +7,3 @@ class Med_file(models.Model):
 
     def __str__(self):
         return self.filename
-
-class snsimage(models.Model):
-    Image = models.ImageField(storage=OverwriteStorage())
-
-    def __str__(self):
-        return str(self.Image)

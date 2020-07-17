@@ -10,27 +10,19 @@ from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
 from sklearn.preprocessing import StandardScaler
 from .forms import MediaForm
-from tkinter import *
 from django.core.files import File
-import pathlib3x as pathlib
-
-def fresh():
-    df = pd.read_csv('media/AD.csv')
-    my_dir_to_delete = pathlib.Path('static/imgs')
-    my_dir_to_delete.rmtree(ignore_errors=True)
-    pathlib.Path('static/imgs').mkdir(parents=True, exist_ok=True)
-    return df
+from sklearn.linear_model import LogisticRegression
 
 def data_cleaning():
-    df = fresh()
-    df = df.drop(['Subject ID','MRI ID', 'Visit', 'Hand'], axis=1)
+    df = pd.read_csv('media/AD.csv')
+    df = df.drop(['Subject ID','MRI ID', 'Visit', 'Hand','MR Delay'], axis=1)
     duplicate_rows_df = df[df.duplicated()]
     print("number of duplicate rows: ", duplicate_rows_df.shape)
     df = df.drop_duplicates()
     df['Group'] = df['Group'].replace(['Converted'], ['Demented'])
     return df
     
-def ad(request):
+def serverside():
     df = data_cleaning()
     for i in range(df['M/F'].size):
         if df['M/F'][i]=='M':
@@ -38,42 +30,54 @@ def ad(request):
         elif df['M/F'][i]=='F':
             df['M/F'][i] = 1 
     df['Group'] = df['Group'].replace(['Demented', 'Nondemented'], [1,0]) 
-    sns.set_style('whitegrid')
-    sns.countplot(x='Group',data=df,palette='rainbow')
-    plt.savefig('static/imgs/snsimage.png')
-    sns.heatmap(df.isnull(),yticklabels=False,cmap='viridis')
-    plt.savefig('static/imgs/snsimage1.png')
-    
-    x = df['EDUC']
-    y = df['SES']
-
-    ses_not_null_index = y[~y.isnull()].index
-    x = x[ses_not_null_index]
-    y = y[ses_not_null_index]
-    plt.plot(x,y,'o')
-    plt.savefig('static/imgs/x1.png')
-    z = np.polyfit(x, y, 1) #y = mx^1 +c
-    p = np.poly1d(z) # slope, intercept
-    plt.plot(x, y, 'go')
-    plt.plot(x, p(x), "b--")
-    plt.xlabel('Education Level(EDUC)')
-    plt.ylabel('Social Economic Status(SES)')
-    plt.savefig('static/imgs/SesEduc.png')
 
     df["SES"].fillna(df.groupby("EDUC")["SES"].transform("median"), inplace=True)
     
     df=df.dropna(axis=0, how='any')
-    fit = feature(df)
+    fit = bfeature(df)
     dfscores = pd.DataFrame(fit.scores_)
     X=df.iloc[:,1:11]
     dfcolumns = pd.DataFrame(X.columns)
     featureScores = pd.concat([dfcolumns,dfscores],axis = 1)
     featureScores.columns = ['Specs','Scores']
-    featureScores.nlargest(5,'Scores').plot(kind='bar')
-    plt.savefig('static/imgs/featureScores.png')
-    return render(request,'ad.html')
+    fss=featureScores.nlargest(5,'Scores')
+    fssi=fss.reset_index()
+    fs=fssi.Specs
+    return [fs,df]
 
-def feature(df):
+def ad(request):
+    if request.method == 'POST':
+        ssl = serverside()
+        list_pred = []
+        for i in ssl[0]:
+            x = request.POST.get(i)
+            list_pred.append(float(x))
+        list_pred = np.array(list_pred)    
+        temp=[]
+        temp.append(np.array(list_pred))
+        listT = train(ssl[1],ssl[0],temp)
+        answer = LogReg(listT)
+        if answer[0] == 1:
+            context = "You are predicted to be a demented person"
+        if answer[0] == 0:
+            context = "Your brain status is fine"
+        return render(request,'ad.html',{'context':context})
+    else:
+        return render(request,'ad.html')    
+
+def train(df,fs,list_test):
+    X=df[fs].values
+    Y=df['Group'].values
+    X_train,X_test,Y_train,Y_test=train_test_split(X,Y,test_size=0.25)
+    #Feature_scaling
+    sc_X=StandardScaler()
+    X_train=sc_X.fit_transform(X_train)
+    X_test=sc_X.transform(list_test) 
+    lisT = [X_train,X_test,Y_train]
+    return lisT
+    
+
+def bfeature(df):
     X=df.iloc[:,1:11]
     Y=df.iloc[:,0]
     bestfeatures = SelectKBest(score_func=chi2, k=5)
@@ -92,3 +96,9 @@ def home(request):
 
 def visualize_data(request):
     return render(request,'visualize.html')
+
+def LogReg(listT):
+    classifier =LogisticRegression()
+    classifier.fit(listT[0],listT[2])    
+    y_pred=classifier.predict(listT[1])
+    return y_pred
