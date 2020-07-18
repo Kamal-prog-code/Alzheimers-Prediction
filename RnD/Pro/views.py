@@ -9,8 +9,11 @@ from .models import *
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
 from sklearn.preprocessing import StandardScaler
-from .forms import MediaForm
+from .forms import ClientForm
 from django.core.files import File
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from .forms import ClientForm,MediaForm
 from sklearn.linear_model import LogisticRegression
 
 def data_cleaning():
@@ -102,3 +105,36 @@ def LogReg(listT):
     classifier.fit(listT[0],listT[2])    
     y_pred=classifier.predict(listT[1])
     return y_pred
+
+def signup(request):
+    if request.method == 'POST':
+        cli = ClientForm(request.POST)
+        if cli.is_valid():
+            user = User.objects.create_user(username=cli.cleaned_data['User_Name'],
+                                            password=cli.cleaned_data['Password'],
+                                            email=cli.cleaned_data['Email'])
+
+            user.save()
+            cli.save()
+            return redirect('login')
+    else:
+        cli = ClientForm()
+    return render(request,'signup.html',{'form':cli})
+
+def signin(request):
+    if request.method == 'POST':
+        user = User()
+        username = request.POST['user']
+        password = request.POST['pass']
+        user = authenticate(username=username, password=password)
+        context = {'user':request.user}
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request,'login.html',context)
+    else:
+        return render(request,'login.html')
+
+def index(request):
+    return render(request,'index.html')

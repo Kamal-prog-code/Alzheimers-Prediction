@@ -1,0 +1,9 @@
+{% extends 'index.html'%}
+{% block content%}
+<div class="jumbotron jumbotron-fluid" style="height : 10em;font-size: large;font-weight: bold;">
+  <h1>Logged out</h1>
+  <div class="module">
+    <p>You have been successfully logged out. You can <a href="{% url 'signin' %}">log-in again</a>.</p>
+  </div>
+</div>
+{% endblock%}

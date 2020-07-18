@@ -1,48 +1,25 @@
-<html lang="en">
-  <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
-    <title>Alzheimer's Disease Predictor</title>
-
-    <style>
-      div.pricing {
-        background: #007bff;
-      }
-
-      .pricing .card-title {
-        font-size: 0.9rem;
-        letter-spacing: 0.1rem;
-        font-weight: bold;
-      }
-      
-      .pricing{
-        font-size: 80%;
-        letter-spacing: 0.1rem;
-        font-weight: bold;
-        transition: all 0.2s;
-      }
-
-      @media (min-width: 1000px) {
-        .pricing .card:hover {
-          margin-top: -0.25rem;
-          margin-bottom: 0.25rem;
-          box-shadow: 0 0.5rem 1rem 0 rgb(0, 0, 0);
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="jumbotron">
-        <a class="navbar-brand" href="{% url 'home' %}"><font size="50" color="Red">Disease Predictor</font></a>     
+{% extends 'index.html'%}
+{% block content %}
+<div class="jumbotron">
+        <a class="navbar-brand" href="{% url 'index' %}"><font size="50" color="Red">Disease Predictor</font></a>     
     </div>   
 
     <div class="pricing" style="height: 600px;">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6" style="margin-top:6em;">
+          {% if user.is_staff %}
+          <div class="col-lg-6 offset-md-3" style="margin-top:6em">
+              <div class="card card-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'index' %}">
+                  {%csrf_token%}
+                  {{form.as_p}}
+                  <input type="submit" value="Submit"> 
+                </form>
+              </div>
+              <a class="btn btn-warning" style="margin-top: 4em;margin-left: 1em;" href="{% url 'visual'%}">Our Analysis &#8594;</a>
+          </div>
+          {%else%}
+          <div class="col-lg-6 offset-md-3" style="margin-top:6em;">
               <div class="card card-body">
                 <h5 class="card-title text-muted text-uppercase text-center" style="font-weight: bold;">
                   Alzheimer's DISEASE PREDICTION
@@ -52,18 +29,8 @@
                 <a href="{% url 'ad' %}" class="btn btn-block btn-danger text-uppercase">Know Ur Brain Status</a>
               </div>
           </div>
-          <div class="col-lg-4" style="margin-top:6em;margin-left: 2em;">
-              <div class="card card-body">
-                <form method="POST" enctype="multipart/form-data" action="{% url 'visual' %}">
-                  {%csrf_token%}
-                  {{form.as_p}}
-                  <input type="submit" value="Submit"> 
-                </form>
-              </div>
-              <a class="btn btn-warning" style="margin-top: 4em;margin-left: 12em;" href="{% url 'visual'%}">Our Analysis &#8594;</a>
-          </div>
+          {%endif%}
         </div>
       </div>
     </div>
-  </body>
-</html>
+{%endblock%}    

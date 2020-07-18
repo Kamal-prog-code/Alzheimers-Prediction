@@ -1,0 +1,10 @@
+input
+{
+  width: 100%;
+  padding: 12px 20px;
+  margin-top:8px;
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

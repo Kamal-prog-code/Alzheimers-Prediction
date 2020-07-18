@@ -1,0 +1,11 @@
+{% extends 'base.html'%}
+{% block content %}
+    <div class="container">
+        <h1 style="margin-right: 18em;color: ivory;font-weight: bold;padding-top: 26%;">Alzheimer's Disease Prediction</h1>
+        {% if user.is_authenticated %}
+            <a class="btn btn-outline-light " href="{% url 'home' %}"  style="font-family: cursive;cursor: pointer;font-size: 20px;margin-right: 35em;margin-top: 2em;"><i class="fa fa-compass"></i>&nbsp;Explore</a>
+        {% else %}
+            <a class="btn btn-outline-light " href="{% url 'signin' %}"  style="font-family: cursive;cursor: pointer;font-size: 20px;margin-right: 35em;margin-top: 2em;"><i class="fa fa-compass"></i>&nbsp;Explore</a>
+        {% endif %}
+    </div>
+{% endblock %}
