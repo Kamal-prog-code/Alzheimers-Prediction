@@ -10,7 +10,7 @@
           {% if user.is_staff %}
           <div class="col-lg-6 offset-md-3" style="margin-top:6em">
               <div class="card card-body">
-                <form method="POST" enctype="multipart/form-data" action="{% url 'index' %}">
+                <form method="POST" enctype="multipart/form-data">
                   {%csrf_token%}
                   {{form.as_p}}
                   <input type="submit" value="Submit"> 

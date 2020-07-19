@@ -93,7 +93,7 @@ def home(request):
         form = MediaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('index')
     context={'form':form}
     return render(request,'home.html',context)
 
@@ -116,7 +116,7 @@ def signup(request):
 
             user.save()
             cli.save()
-            return redirect('login')
+            return redirect('signin')
     else:
         cli = ClientForm()
     return render(request,'signup.html',{'form':cli})
