@@ -1,4 +1,4 @@
 docker==4.1.0
 docker-compose==1.25.0
 dockerpty==0.4.1
-Pillow==7.0.0
+Pillow==7.1.0
